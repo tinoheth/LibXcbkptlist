@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A551D6A81A599860006A0E74 /* LibXcbkptlist.h in Headers */ = {isa = PBXBuildFile; fileRef = A551D6A71A599860006A0E74 /* LibXcbkptlist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A551D6AE1A599860006A0E74 /* LibXcbkptlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A551D6A21A599860006A0E74 /* LibXcbkptlist.framework */; };
 		A551D6B51A599860006A0E74 /* LibXcbkptlistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6B41A599860006A0E74 /* LibXcbkptlistTests.swift */; };
+		A551D6E01A59A2C2006A0E74 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,10 +25,10 @@
 /* Begin PBXFileReference section */
 		A551D6A21A599860006A0E74 /* LibXcbkptlist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibXcbkptlist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A551D6A61A599860006A0E74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A551D6A71A599860006A0E74 /* LibXcbkptlist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibXcbkptlist.h; sourceTree = "<group>"; };
 		A551D6AD1A599860006A0E74 /* LibXcbkptlistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibXcbkptlistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A551D6B31A599860006A0E74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A551D6B41A599860006A0E74 /* LibXcbkptlistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibXcbkptlistTests.swift; sourceTree = "<group>"; };
+		A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XMLParser.swift; path = LibXcbkptlist/XMLParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 		A551D6A41A599860006A0E74 /* LibXcbkptlist */ = {
 			isa = PBXGroup;
 			children = (
-				A551D6A71A599860006A0E74 /* LibXcbkptlist.h */,
+				A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */,
 				A551D6A51A599860006A0E74 /* Supporting Files */,
 			);
 			path = LibXcbkptlist;
@@ -109,7 +109,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A551D6A81A599860006A0E74 /* LibXcbkptlist.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A551D6E01A59A2C2006A0E74 /* XMLParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +250,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -265,10 +266,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -295,6 +298,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -304,9 +308,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -315,6 +321,7 @@
 		A551D6B91A599860006A0E74 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -323,15 +330,16 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = LibXcbkptlist/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		A551D6BA1A599860006A0E74 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -340,7 +348,6 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = LibXcbkptlist/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -397,6 +404,7 @@
 				A551D6BA1A599860006A0E74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A551D6BB1A599860006A0E74 /* Build configuration list for PBXNativeTarget "LibXcbkptlistTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +413,7 @@
 				A551D6BD1A599860006A0E74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
