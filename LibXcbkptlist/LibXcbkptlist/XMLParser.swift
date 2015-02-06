@@ -42,11 +42,11 @@ extension NSXMLElement {
 }
 
 protocol XMLConvertible {
-	func toXML() -> NSXMLElement
+	func toXML() -> NSXMLElement?
 }
 
 extension NSXMLElement: XMLConvertible {
-	func toXML() -> NSXMLElement {
+	func toXML() -> NSXMLElement? {
 		return self
 	}
 }
@@ -55,15 +55,21 @@ public class Breakpoint: XMLConvertible {
 	public var enabled = true
 	public var ignoreCount = 0
 	public var continueAfterRunningActions = false
+	public let breakpointExtensionID: String
 	
 	private var children: [NSXMLNode] = []
+	
+	init(type: String) {
+		breakpointExtensionID = type
+	}
 	
 	func addContent(content: NSXMLElement) {
 	}
 	
-	public func toXML() -> NSXMLElement {
+	public func toXML() -> NSXMLElement? {
 		
 		var result = NSXMLElement(name: "BreakpointProxy")
+		result.setAttribute("BreakpointExtensionID", value: breakpointExtensionID)
 		var content = NSXMLElement(name: "BreakpointContent")
 		result.addChild(content)
 		
@@ -85,6 +91,7 @@ public class FileBreakpoint: Breakpoint {
 	required public init(path: String, lineNumber: UInt) {
 		filePath = path
 		startingLineNumber = lineNumber
+		super.init(type: "Xcode.Breakpoint.FileBreakpoint")
 	}
 	
 	public convenience init?(xmlNode: NSXMLNode) {
@@ -103,11 +110,13 @@ public class FileBreakpoint: Breakpoint {
 		}
 	}
 	
+	let cCreatorCode = "codebreaker.t-no.de"
+	
 	override func addContent(content: NSXMLElement) {
 		content.setAttribute("filePath", value: filePath)
 		content.setAttribute("startingLineNumber", value: startingLineNumber)
 		content.setAttribute("endingLineNumber", value: startingLineNumber)
-		content.setBoolAttribute("generatedByCodebreaker", value: true)
+		content.setAttribute("creator", value: cCreatorCode)
 		
 		/* We are lucky - Xcode doesn't need that info
 		content.setAttribute("timestampString", value: "444663024.303055")
@@ -121,16 +130,19 @@ public class FileBreakpoint: Breakpoint {
 
 
 
-public class BreakpointFile {
+public class BreakpointFile: XMLConvertible {
 	public var fileBreakpoints = [FileBreakpoint]()
 	var breakpoints = Array<XMLConvertible>()
 	
-	public init?(xmlDocument: NSXMLDocument) {
+	let xmlDocument: NSXMLDocument
+	
+	public init(xmlDocument: NSXMLDocument) {
+		self.xmlDocument = xmlDocument
 		let xmlNode = xmlDocument.rootElement()
 		if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
 			for proxy in (array.children as [NSXMLElement]) {
 				let extensionID = proxy.attributeForName("BreakpointExtensionID")
-				if extensionID == "Xcode.Breakpoint.FileBreakpoint" {
+				if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
 					if let breakpoint = FileBreakpoint(xmlNode: proxy) {
 						fileBreakpoints.append(breakpoint)
 						breakpoints.append(breakpoint)
@@ -138,8 +150,24 @@ public class BreakpointFile {
 				} else {
 					breakpoints.append(proxy)
 				}
+				proxy.detach()
 			}
 		}
+	}
+	
+	public func toXML() -> NSXMLElement? {
+		return toXMLDocument().rootElement()
+	}
+	
+	public func toXMLDocument() -> NSXMLDocument {
+		let xmlNode = xmlDocument.rootElement()
+		if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
+			let children: [NSXMLElement] = breakpoints.map { convertible in
+				return convertible.toXML()!
+			}
+			array.setChildren(children)
+		}
+		return xmlDocument
 	}
 	
 	public func deleteBreakpoint(br: Breakpoint) -> Self {
@@ -150,7 +178,11 @@ public class BreakpointFile {
 				return true
 			}
 		}
-		
 		return self
+	}
+	
+	public func deleteAllBreakpoints() {
+		fileBreakpoints.removeAll(keepCapacity: false)
+		breakpoints.removeAll(keepCapacity: false)
 	}
 }

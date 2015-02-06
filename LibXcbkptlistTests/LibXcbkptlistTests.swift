@@ -24,7 +24,18 @@ class LibXcbkptlistTests: XCTestCase {
     func testXMLCreation() {
         // This is an example of a functional test case.
 		var test = FileBreakpoint(path: "Path", lineNumber: 22)
-		println(test.toXML().XMLString)
+		println(test.toXML()?.XMLString)
         XCTAssert(true, "Pass")
     }
+	
+	func testSelf() {
+		let data = NSData(contentsOfURL: NSURL(fileURLWithPath: "LibXcbkptlistTests/Input/Breakpoints_v2.xcbkptlist")!)
+		if let xml = NSXMLDocument(data: data!, options: 0, error: nil) {
+			let doc = BreakpointFile(xmlDocument: xml)
+				if let br = doc.fileBreakpoints.last {
+					br.ignoreCount = 44
+				}
+				doc.toXMLDocument().XMLDataWithOptions(Int(NSXMLNodePrettyPrint)).writeToURL(NSURL(fileURLWithPath: "Breakpoints.xml")!, atomically: true)
+			}
+	}
 }
