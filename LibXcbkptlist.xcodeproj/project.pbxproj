@@ -10,6 +10,7 @@
 		A551D6AE1A599860006A0E74 /* LibXcbkptlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A551D6A21A599860006A0E74 /* LibXcbkptlist.framework */; };
 		A551D6B51A599860006A0E74 /* LibXcbkptlistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6B41A599860006A0E74 /* LibXcbkptlistTests.swift */; };
 		A551D6E01A59A2C2006A0E74 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */; };
+		A59581351A81113F00C92F71 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -216,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A59581351A81113F00C92F71 /* XMLParser.swift in Sources */,
 				A551D6B51A599860006A0E74 /* LibXcbkptlistTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
