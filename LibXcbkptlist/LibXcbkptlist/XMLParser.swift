@@ -131,10 +131,10 @@ public class FileBreakpoint: Breakpoint {
 
 
 public class BreakpointFile: XMLConvertible {
-	public var fileBreakpoints = [FileBreakpoint]()
-	var breakpoints = Array<XMLConvertible>()
+	private var fileBreakpoints = [String: [FileBreakpoint]]()
+	private var breakpoints = Array<XMLConvertible>()
 	
-	let xmlDocument: NSXMLDocument
+	private let xmlDocument: NSXMLDocument
 	
 	public init(xmlDocument: NSXMLDocument) {
 		self.xmlDocument = xmlDocument
@@ -144,7 +144,8 @@ public class BreakpointFile: XMLConvertible {
 				let extensionID = proxy.attributeForName("BreakpointExtensionID")
 				if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
 					if let breakpoint = FileBreakpoint(xmlNode: proxy) {
-						fileBreakpoints.append(breakpoint)
+						//fileBreakpoints.append(breakpoint)
+						addFileBreakpoint(breakpoint)
 						breakpoints.append(breakpoint)
 					}
 				} else {
@@ -170,19 +171,64 @@ public class BreakpointFile: XMLConvertible {
 		return xmlDocument
 	}
 	
+	public func addFileBreakpoint(br: FileBreakpoint) -> Self {
+		if var list = fileBreakpoints[br.filePath] {
+			list.append(br)
+		} else {
+			fileBreakpoints[br.filePath] = [br]
+		}
+		breakpoints.append(br)
+		return self
+	}
+	
 	public func deleteBreakpoint(br: Breakpoint) -> Self {
-		breakpoints = breakpoints.filter { current in
-			if let current = current as? Breakpoint {
-				return br !== current
+		func excludeBreakpoint(current: XMLConvertible) -> Bool {
+			if let check = current as? Breakpoint {
+				return br !== check
 			} else {
 				return true
 			}
 		}
+		
+		if let fb = br as? FileBreakpoint {
+			if let list = fileBreakpoints[fb.filePath] {
+				//fileBreakpoints[fb.filePath] = list.filter(excludeBreakpoint)
+				var next = [FileBreakpoint]()
+				for current in list {
+					if current !== fb {
+						next.append(current)
+					}
+				}
+				if next.count > 0 {
+					fileBreakpoints[fb.filePath] = next
+				} else {
+					fileBreakpoints.removeValueForKey(fb.filePath)
+				}
+			}
+		}
+		breakpoints = breakpoints.filter(excludeBreakpoint)
+		
 		return self
 	}
 	
 	public func deleteAllBreakpoints() {
 		fileBreakpoints.removeAll(keepCapacity: false)
 		breakpoints.removeAll(keepCapacity: false)
+	}
+	
+	public func fileBreakpointsForPath(path: String?) -> [FileBreakpoint] {
+		if let path = path {
+			if let result = fileBreakpoints[path] {
+				return result
+			} else {
+				return []
+			}
+		} else {
+			return []
+		}
+	}
+	
+	public func registeredFiles() -> [String] {
+		return fileBreakpoints.keys.array
 	}
 }
