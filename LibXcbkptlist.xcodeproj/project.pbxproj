@@ -10,6 +10,7 @@
 		A551D6AE1A599860006A0E74 /* LibXcbkptlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A551D6A21A599860006A0E74 /* LibXcbkptlist.framework */; };
 		A551D6B51A599860006A0E74 /* LibXcbkptlistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6B41A599860006A0E74 /* LibXcbkptlistTests.swift */; };
 		A551D6E01A59A2C2006A0E74 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */; };
+		A5578D1F1A869B4300C5A46E /* BreakpointFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5578D1E1A869B4300C5A46E /* BreakpointFile.swift */; };
 		A59581351A81113F00C92F71 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		A551D6B31A599860006A0E74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A551D6B41A599860006A0E74 /* LibXcbkptlistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibXcbkptlistTests.swift; sourceTree = "<group>"; };
 		A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XMLParser.swift; path = LibXcbkptlist/XMLParser.swift; sourceTree = "<group>"; };
+		A5578D1E1A869B4300C5A46E /* BreakpointFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BreakpointFile.swift; path = LibXcbkptlist/BreakpointFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */,
+				A5578D1E1A869B4300C5A46E /* BreakpointFile.swift */,
 				A551D6A51A599860006A0E74 /* Supporting Files */,
 			);
 			path = LibXcbkptlist;
@@ -209,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5578D1F1A869B4300C5A46E /* BreakpointFile.swift in Sources */,
 				A551D6E01A59A2C2006A0E74 /* XMLParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
