@@ -18,7 +18,7 @@ public class BreakpointFile: XMLConvertible {
 		self.xmlDocument = xmlDocument
 		let xmlNode = xmlDocument.rootElement()
 		if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
-			for proxy in (array.children as [NSXMLElement]) {
+			for proxy in (array.children as! [NSXMLElement]) {
 				let extensionID = proxy.attributeForName("BreakpointExtensionID")
 				if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
 					if let breakpoint = FileBreakpoint(xmlNode: proxy) {

@@ -51,7 +51,7 @@ extension NSXMLElement: XMLConvertible {
 	}
 }
 
-private class BreakpointAction: XMLConvertible {
+public class BreakpointAction: XMLConvertible {
 	let actionExtensionID: String
 	
 	init(actionExtensionID: String) {
