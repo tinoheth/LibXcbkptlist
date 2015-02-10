@@ -8,13 +8,22 @@
 
 import Foundation
 
+let cCreatorCode = "codebreaker.t-no.de"
+
 public class BreakpointFile: XMLConvertible {
 	private var fileBreakpoints = [String: [FileBreakpoint]]()
 	private var breakpoints = Array<XMLConvertible>()
 	
 	private let xmlDocument: NSXMLDocument
 	
-	public init(xmlDocument: NSXMLDocument) {
+	/**
+		Standard initializer
+	
+		:param: xmlDocument
+	
+		:param: ignoredCreator Makes it easy to have a clean start by skipping breakpoints that were created in a past run - re-creation is easier than editing
+	*/
+	public init(xmlDocument: NSXMLDocument, ignoredCreator: String = cCreatorCode) {
 		self.xmlDocument = xmlDocument
 		let xmlNode = xmlDocument.rootElement()
 		if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
@@ -23,8 +32,10 @@ public class BreakpointFile: XMLConvertible {
 				if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
 					if let breakpoint = FileBreakpoint(xmlNode: proxy) {
 						//fileBreakpoints.append(breakpoint)
-						addFileBreakpoint(breakpoint)
-						breakpoints.append(breakpoint)
+						if breakpoint.creatorCode != ignoredCreator {
+							addFileBreakpoint(breakpoint)
+							breakpoints.append(breakpoint)
+						}
 					}
 				} else {
 					breakpoints.append(proxy)
