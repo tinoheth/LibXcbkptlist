@@ -34,7 +34,6 @@ public class BreakpointFile: XMLConvertible {
 						//fileBreakpoints.append(breakpoint)
 						if breakpoint.creatorCode != ignoredCreator {
 							addFileBreakpoint(breakpoint)
-							breakpoints.append(breakpoint)
 						}
 					}
 				} else {
@@ -51,25 +50,25 @@ public class BreakpointFile: XMLConvertible {
 	
 	public func toXMLDocument() -> NSXMLDocument {
 		let xmlNode = xmlDocument.rootElement()
-		if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
-			let children: [NSXMLElement] = breakpoints.map { convertible in
-				return convertible.toXML()!
-			}
-			array.setChildren(children)
+		let array = NSXMLElement(name: "Breakpoints")
+		xmlNode?.setChildren([array])
+		let children: [NSXMLElement] = breakpoints.map { convertible in
+			return convertible.toXML()!
 		}
+		println("Got \(children.count) breakpoints")
+		array.setChildren(children)
 		return xmlDocument
 	}
 	
-	public func addFileBreakpoint(br: FileBreakpoint) -> Self {
-		if var list = fileBreakpoints[br.filePath] {
-			list.append(br)
+	public func addFileBreakpoint(breakpoint: FileBreakpoint) {
+		if var list = fileBreakpoints[breakpoint.filePath] {
+			list.append(breakpoint)
 		} else {
-			fileBreakpoints[br.filePath] = [br]
+			fileBreakpoints[breakpoint.filePath] = [breakpoint]
 		}
-		breakpoints.append(br)
-		return self
+		breakpoints.append(breakpoint)
 	}
-	
+
 	public func deleteBreakpoint(br: Breakpoint) -> Self {
 		func excludeBreakpoint(current: XMLConvertible) -> Bool {
 			if let check = current as? Breakpoint {
