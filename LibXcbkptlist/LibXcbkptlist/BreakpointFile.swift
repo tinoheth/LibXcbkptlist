@@ -23,24 +23,28 @@ public class BreakpointFile: XMLConvertible {
 	
 		:param: ignoredCreator Makes it easy to have a clean start by skipping breakpoints that were created in a past run - re-creation is easier than editing
 	*/
-	public init(xmlDocument: NSXMLDocument, ignoredCreator: String = cCreatorCode) {
-		self.xmlDocument = xmlDocument
-		let xmlNode = xmlDocument.rootElement()
-		if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
-			for proxy in (array.children as! [NSXMLElement]) {
-				let extensionID = proxy.attributeForName("BreakpointExtensionID")
-				if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
-					if let breakpoint = FileBreakpoint(xmlNode: proxy) {
-						//fileBreakpoints.append(breakpoint)
-						if breakpoint.creatorCode != ignoredCreator {
-							addFileBreakpoint(breakpoint)
+	public init(xmlDocument: NSXMLDocument? = nil, ignoredCreator: String = cCreatorCode) {
+		if let xmlDocument = xmlDocument {
+			self.xmlDocument = xmlDocument
+			let xmlNode = xmlDocument.rootElement()
+			if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
+				for proxy in (array.children as! [NSXMLElement]) {
+					let extensionID = proxy.attributeForName("BreakpointExtensionID")
+					if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
+						if let breakpoint = FileBreakpoint(xmlNode: proxy) {
+							//fileBreakpoints.append(breakpoint)
+							if breakpoint.creatorCode != ignoredCreator {
+								addFileBreakpoint(breakpoint)
+							}
 						}
+					} else {
+						breakpoints.append(proxy)
 					}
-				} else {
-					breakpoints.append(proxy)
+					proxy.detach()
 				}
-				proxy.detach()
 			}
+		} else {
+			self.xmlDocument = NSXMLDocument(rootElement: NSXMLElement(name: "Bucket"))
 		}
 	}
 	
