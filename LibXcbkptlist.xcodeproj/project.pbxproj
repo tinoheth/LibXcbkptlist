@@ -12,6 +12,11 @@
 		A551D6E01A59A2C2006A0E74 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */; };
 		A5578D1F1A869B4300C5A46E /* BreakpointFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5578D1E1A869B4300C5A46E /* BreakpointFile.swift */; };
 		A59581351A81113F00C92F71 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */; };
+		A5BAED371AE2979900C953F4 /* BreakpointAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BAED361AE2979900C953F4 /* BreakpointAction.swift */; };
+		A5BAED391AE297A100C953F4 /* Breakpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BAED381AE297A100C953F4 /* Breakpoint.swift */; };
+		A5BAED3A1AE297D300C953F4 /* BreakpointAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BAED361AE2979900C953F4 /* BreakpointAction.swift */; };
+		A5BAED3B1AE297D300C953F4 /* Breakpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BAED381AE297A100C953F4 /* Breakpoint.swift */; };
+		A5BAED3C1AE297D300C953F4 /* BreakpointFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5578D1E1A869B4300C5A46E /* BreakpointFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +37,8 @@
 		A551D6B41A599860006A0E74 /* LibXcbkptlistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibXcbkptlistTests.swift; sourceTree = "<group>"; };
 		A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XMLParser.swift; path = LibXcbkptlist/XMLParser.swift; sourceTree = "<group>"; };
 		A5578D1E1A869B4300C5A46E /* BreakpointFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BreakpointFile.swift; path = LibXcbkptlist/BreakpointFile.swift; sourceTree = "<group>"; };
+		A5BAED361AE2979900C953F4 /* BreakpointAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BreakpointAction.swift; path = LibXcbkptlist/BreakpointAction.swift; sourceTree = "<group>"; };
+		A5BAED381AE297A100C953F4 /* Breakpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Breakpoint.swift; path = LibXcbkptlist/Breakpoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				A551D6DF1A59A2C2006A0E74 /* XMLParser.swift */,
+				A5BAED361AE2979900C953F4 /* BreakpointAction.swift */,
+				A5BAED381AE297A100C953F4 /* Breakpoint.swift */,
 				A5578D1E1A869B4300C5A46E /* BreakpointFile.swift */,
 				A551D6A51A599860006A0E74 /* Supporting Files */,
 			);
@@ -214,6 +223,8 @@
 			files = (
 				A5578D1F1A869B4300C5A46E /* BreakpointFile.swift in Sources */,
 				A551D6E01A59A2C2006A0E74 /* XMLParser.swift in Sources */,
+				A5BAED391AE297A100C953F4 /* Breakpoint.swift in Sources */,
+				A5BAED371AE2979900C953F4 /* BreakpointAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +234,9 @@
 			files = (
 				A59581351A81113F00C92F71 /* XMLParser.swift in Sources */,
 				A551D6B51A599860006A0E74 /* LibXcbkptlistTests.swift in Sources */,
+				A5BAED3B1AE297D300C953F4 /* Breakpoint.swift in Sources */,
+				A5BAED3C1AE297D300C953F4 /* BreakpointFile.swift in Sources */,
+				A5BAED3A1AE297D300C953F4 /* BreakpointAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

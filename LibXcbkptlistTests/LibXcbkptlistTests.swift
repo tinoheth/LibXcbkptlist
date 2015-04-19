@@ -32,7 +32,7 @@ class LibXcbkptlistTests: XCTestCase {
 		let data = NSData(contentsOfURL: NSURL(fileURLWithPath: "LibXcbkptlistTests/Input/Breakpoints_v2.xcbkptlist")!)
 		if let xml = NSXMLDocument(data: data!, options: 0, error: nil) {
 			let doc = BreakpointFile(xmlDocument: xml)
-				if let br = doc.fileBreakpoints.last {
+				if let br = doc.fileBreakpointsForPath(doc.registeredFiles().first).first {
 					br.ignoreCount = 44
 				}
 				doc.toXMLDocument().XMLDataWithOptions(Int(NSXMLNodePrettyPrint)).writeToURL(NSURL(fileURLWithPath: "Breakpoints.xml")!, atomically: true)
