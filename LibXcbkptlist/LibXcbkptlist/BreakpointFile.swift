@@ -13,38 +13,66 @@ let cCreatorCode = "codebreaker.t-no.de"
 public class BreakpointFile: XMLConvertible {
 	private var fileBreakpoints = [String: [FileBreakpoint]]()
 	private var breakpoints = Array<XMLConvertible>()
+
+	public let lastUpdate: NSDate
 	
 	private let xmlDocument: NSXMLDocument
-	
+
+	private func extractBreakpoints(breakpointNode: NSXMLElement, ignoredCreator: String) {
+		if let proxies = breakpointNode.children as? [NSXMLElement] {
+			for proxy in proxies {
+				let extensionID = proxy.attributeForName("BreakpointExtensionID")
+				if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
+					if let breakpoint = FileBreakpoint(xmlNode: proxy) {
+						//fileBreakpoints.append(breakpoint)
+						if breakpoint.creatorCode != ignoredCreator {
+							addFileBreakpoint(breakpoint)
+						}
+					}
+				} else {
+					breakpoints.append(proxy)
+				}
+				proxy.detach()
+			}
+		}
+	}
 	/**
 		Standard initializer
-	
+
 		:param: xmlDocument
-	
+
 		:param: ignoredCreator Makes it easy to have a clean start by skipping breakpoints that were created in a past run - re-creation is easier than editing
-	*/
-	public init(xmlDocument: NSXMLDocument? = nil, ignoredCreator: String = cCreatorCode) {
+	**/
+	public init(xmlDocument: NSXMLDocument? = nil, changeDate: NSDate = NSDate(timeIntervalSinceReferenceDate: 0), ignoredCreator: String = cCreatorCode) {
+		lastUpdate = changeDate
 		if let xmlDocument = xmlDocument {
 			self.xmlDocument = xmlDocument
 			let xmlNode = xmlDocument.rootElement()
-			if let array = xmlNode?.childAtIndex(0) as? NSXMLElement {
-				for proxy in (array.children as! [NSXMLElement]) {
-					let extensionID = proxy.attributeForName("BreakpointExtensionID")
-					if extensionID?.stringValue == "Xcode.Breakpoint.FileBreakpoint" {
-						if let breakpoint = FileBreakpoint(xmlNode: proxy) {
-							//fileBreakpoints.append(breakpoint)
-							if breakpoint.creatorCode != ignoredCreator {
-								addFileBreakpoint(breakpoint)
-							}
-						}
-					} else {
-						breakpoints.append(proxy)
+			if let rootChildren = xmlNode?.children as? [NSXMLElement] {
+				for current in rootChildren {
+					if current.name == "Breakpoints" {
+						extractBreakpoints(current, ignoredCreator: ignoredCreator)
 					}
-					proxy.detach()
 				}
 			}
 		} else {
 			self.xmlDocument = NSXMLDocument(rootElement: NSXMLElement(name: "Bucket"))
+		}
+	}
+
+	public convenience init(fileURL: NSURL, ignoredCreator: String = cCreatorCode) {
+		let date: NSDate
+		var value: AnyObject?
+		if fileURL.getResourceValue(&value, forKey: NSURLAttributeModificationDateKey, error: nil) && value is NSDate {
+			date = value as! NSDate
+		} else {
+			date = NSDate()
+		}
+
+		if let data = NSData(contentsOfURL: fileURL), xml = NSXMLDocument(data: data, options: 0, error: nil) {
+			self.init(xmlDocument: xml, changeDate: date, ignoredCreator: ignoredCreator)
+		} else {
+			self.init(xmlDocument: nil, changeDate: date, ignoredCreator: ignoredCreator)
 		}
 	}
 	

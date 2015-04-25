@@ -19,6 +19,11 @@ public class Breakpoint: XMLConvertible {
 	public var actions = [BreakpointAction]()
 	private var children: [XMLConvertible] = []
 
+	/**
+		Tags to mark/group breakpoints. Xcode doesn't know them, but external tools should be able to work with them.
+	*/
+	public var tags = [String]()
+
 	init(type: String) {
 		breakpointExtensionID = type
 	}
@@ -49,8 +54,20 @@ public class Breakpoint: XMLConvertible {
 	public func toXML() -> NSXMLElement? {
 		var result = NSXMLElement(name: "BreakpointProxy")
 		result.setAttribute("BreakpointExtensionID", value: breakpointExtensionID)
+
+
 		var content = NSXMLElement(name: "BreakpointContent")
 		result.addChild(content)
+
+		if tags.count > 0 {
+			var xmlTags = NSXMLElement(name: "Tags")
+			for tag in tags {
+				let xmlTag = NSXMLElement(name: "Tag")
+				xmlTag.setAttribute("name", value: tag)
+				xmlTags.addChild(xmlTag)
+			}
+			content.addChild(xmlTags)
+		}
 
 		content.setBoolAttribute("shouldBeEnabled", value: enabled)
 		content.setAttribute("ignoreCount", value: ignoreCount)
