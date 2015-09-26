@@ -39,9 +39,9 @@ public class BreakpointFile: XMLConvertible {
 	/**
 		Standard initializer
 
-		:param: xmlDocument
+		- parameter xmlDocument:
 
-		:param: ignoredCreator Makes it easy to have a clean start by skipping breakpoints that were created in a past run - re-creation is easier than editing
+		- parameter ignoredCreator: Makes it easy to have a clean start by skipping breakpoints that were created in a past run - re-creation is easier than editing
 	**/
 	public init(xmlDocument: NSXMLDocument? = nil, changeDate: NSDate = NSDate(timeIntervalSinceReferenceDate: 0), ignoredCreator: String = cCreatorCode) {
 		lastUpdate = changeDate
@@ -63,13 +63,14 @@ public class BreakpointFile: XMLConvertible {
 	public convenience init(fileURL: NSURL, ignoredCreator: String = cCreatorCode) {
 		let date: NSDate
 		var value: AnyObject?
-		if fileURL.getResourceValue(&value, forKey: NSURLAttributeModificationDateKey, error: nil) && value is NSDate {
+		_ = try? fileURL.getResourceValue(&value, forKey: NSURLAttributeModificationDateKey)
+		if value is NSDate {
 			date = value as! NSDate
 		} else {
 			date = NSDate()
 		}
 
-		if let data = NSData(contentsOfURL: fileURL), xml = NSXMLDocument(data: data, options: 0, error: nil) {
+		if let data = NSData(contentsOfURL: fileURL), xml = try? NSXMLDocument(data: data, options: 0) {
 			self.init(xmlDocument: xml, changeDate: date, ignoredCreator: ignoredCreator)
 		} else {
 			self.init(xmlDocument: nil, changeDate: date, ignoredCreator: ignoredCreator)
@@ -87,7 +88,8 @@ public class BreakpointFile: XMLConvertible {
 		let children: [NSXMLElement] = breakpoints.map { convertible in
 			return convertible.toXML()!
 		}
-		println("Got \(children.count) breakpoints")
+		print("Got \(children.count) breakpoints")
+		print(children)
 		array.setChildren(children)
 		return xmlDocument
 	}
@@ -149,6 +151,6 @@ public class BreakpointFile: XMLConvertible {
 	}
 	
 	public func registeredFiles() -> [String] {
-		return fileBreakpoints.keys.array
+		return Array(fileBreakpoints.keys)
 	}
 }

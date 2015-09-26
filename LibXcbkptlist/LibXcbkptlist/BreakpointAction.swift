@@ -22,7 +22,7 @@ public class BreakpointAction: XMLConvertible {
 	convenience init?(xmlNode: NSXMLElement) {
 		if let extensionID = xmlNode.attributeForName("ActionExtensionID")?.stringValue {
 			self.init(actionExtensionID: extensionID)
-			for child in xmlNode.children as! [NSXMLNode] {
+			for child in xmlNode.children! {
 				if child.name == "ActionContent" {
 					extractFromXML(child as! NSXMLElement)
 				}
@@ -41,9 +41,9 @@ public class BreakpointAction: XMLConvertible {
 	}
 
 	func toXML() -> NSXMLElement? {
-		var result = NSXMLElement(name: "BreakpointActionProxy")
+		let result = NSXMLElement(name: "BreakpointActionProxy")
 		result.setAttribute("ActionExtensionID", value: actionExtensionID)
-		var content = NSXMLElement(name: "ActionContent")
+		let content = NSXMLElement(name: "ActionContent")
 		result.addChild(fillContent(content))
 
 		return result

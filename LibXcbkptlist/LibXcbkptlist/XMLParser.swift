@@ -15,7 +15,13 @@ public enum ParserResult {
 
 public func parse(url: NSURL) -> ParserResult {
 	var err: NSError?
-	let result = NSXMLDocument(contentsOfURL: url, options: 0, error: &err)
+	let result: NSXMLDocument?
+	do {
+		result = try NSXMLDocument(contentsOfURL: url, options: 0)
+	} catch let error as NSError {
+		err = error
+		result = nil
+	}
 	if let result = result {
 		return ParserResult.success(data: result)
 	} else {
@@ -35,7 +41,7 @@ extension NSXMLElement {
 	}
 	
 	func setAttribute(attribute: String, value: AnyObject) -> Self {
-		var result = NSXMLNode.attributeWithName(attribute, stringValue: value.description) as! NSXMLNode
+		let result = NSXMLNode.attributeWithName(attribute, stringValue: value.description) as! NSXMLNode
 		self.addAttribute(result)
 		return self
 	}

@@ -52,15 +52,15 @@ public class Breakpoint: XMLConvertible {
 	}
 
 	public func toXML() -> NSXMLElement? {
-		var result = NSXMLElement(name: "BreakpointProxy")
+		let result = NSXMLElement(name: "BreakpointProxy")
 		result.setAttribute("BreakpointExtensionID", value: breakpointExtensionID)
 
 
-		var content = NSXMLElement(name: "BreakpointContent")
+		let content = NSXMLElement(name: "BreakpointContent")
 		result.addChild(content)
 
 		if tags.count > 0 {
-			var xmlTags = NSXMLElement(name: "Tags")
+			let xmlTags = NSXMLElement(name: "Tags")
 			for tag in tags {
 				let xmlTag = NSXMLElement(name: "Tag")
 				xmlTag.setAttribute("name", value: tag)
@@ -79,7 +79,7 @@ public class Breakpoint: XMLConvertible {
 			}
 		}
 
-		var actionsElement = NSXMLElement(name: "Actions")
+		let actionsElement = NSXMLElement(name: "Actions")
 		content.addChild(actionsElement)
 		for action in actions {
 			if let xml = action.toXML() {
@@ -122,8 +122,8 @@ public class FileBreakpoint: Breakpoint {
 			return false
 		}
 		let ln = source.attributeForName("startingLineNumber")
-		if let s = ln?.stringValue {
-			startingLineNumber = UInt(s.toInt()!)
+		if let s = ln?.stringValue, sl = UInt(s) {
+			startingLineNumber = sl
 		} else {
 			return false
 		}
