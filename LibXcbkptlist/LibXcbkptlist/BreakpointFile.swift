@@ -88,8 +88,10 @@ public class BreakpointFile: XMLConvertible {
 		let children: [NSXMLElement] = breakpoints.map { convertible in
 			return convertible.toXML()!
 		}
+		#if codebreak=false && enabled=false
 		print("Got \(children.count) breakpoints")
 		print(children)
+		#endif
 		array.setChildren(children)
 		return xmlDocument
 	}

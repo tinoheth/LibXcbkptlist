@@ -139,9 +139,9 @@ public class FileBreakpoint: Breakpoint {
 			content.setAttribute("creator", value: creator)
 		}
 		/* We are lucky - Xcode doesn't need that info
-		content.setAttribute("timestampString", value: "444663024.303055")
 		content.setAttribute("startingColumnNumber", value: 9223372036854775807)
 		content.setAttribute("endingColumnNumber", value: 9223372036854775807)
+		content.setAttribute("timestampString", value: "444663024.303055")
 		content.setAttribute("landmarkName", value: "")
 		content.setAttribute("landmarkType", value: 7)
 		*/
