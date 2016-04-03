@@ -53,7 +53,7 @@ public class BreakpointAction: XMLConvertible {
 public class DebuggerCommandAction: BreakpointAction {
 	var command: String
 
-	init(command: String = "") {
+	public init(command: String = "") {
 		self.command = command
 		super.init(actionExtensionID: "Xcode.BreakpointAction.DebuggerCommand")
 	}
